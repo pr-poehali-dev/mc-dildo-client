@@ -250,7 +250,7 @@ export default function Index() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up opacity-0 delay-500">
             <button onClick={() => scrollTo("download")} className="neon-btn text-sm px-8 py-3">
-              ⬇ СКАЧАТЬ БЕСПЛАТНО
+              ⬇ КУПИТЬ КЛИЕНТ
             </button>
             <button onClick={() => scrollTo("features")} className="neon-btn neon-btn-cyan text-sm px-8 py-3">
               ПОСМОТРЕТЬ ФУНКЦИИ
