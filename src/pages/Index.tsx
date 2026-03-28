@@ -184,6 +184,168 @@ function BuyModal({ onClose }: { onClose: () => void }) {
   );
 }
 
+function CheatMenu() {
+  const [activeTab, setActiveTab] = useState("COMBAT");
+  const [enabled, setEnabled] = useState<Record<string, boolean>>({
+    KillAura: true, Speed: true, ESP: true, Fly: false,
+    Reach: true, Velocity: false, AutoCrits: true, AntiKnockback: false,
+    NoFall: true, Sprint: true, Bhop: false, Jesus: false,
+    Tracers: true, Fullbright: true, ChestESP: false, Xray: false,
+    NameTags: true, Criticals: false, AutoTotem: true, Scaffold: false,
+    AutoArmor: true, Nuker: false, AutoEat: true, Timer: false,
+  });
+
+  const currentCat = FEATURE_CATEGORIES.find((c) => c.category === activeTab)!;
+
+  return (
+    <div className="w-full max-w-2xl mx-auto select-none">
+      <div className="border border-[rgba(0,255,136,0.35)] bg-[#080808] shadow-[0_0_40px_rgba(0,255,136,0.08)]">
+        {/* title bar */}
+        <div className="flex items-center justify-between px-4 py-2 border-b border-[rgba(0,255,136,0.2)] bg-[rgba(0,255,136,0.04)]">
+          <div className="flex items-center gap-2">
+            <div className="w-5 h-5 border border-[#00ff88] flex items-center justify-center">
+              <span className="font-orbitron text-[#00ff88] text-[9px] font-black">D</span>
+            </div>
+            <span className="font-orbitron text-white text-xs font-bold tracking-[0.2em]">DILDO CLIENT</span>
+            <span className="font-orbitron text-gray-600 text-[9px] tracking-widest">v2.4.1</span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="font-rajdhani text-[#00ff88] text-xs">
+              {Object.values(enabled).filter(Boolean).length} активно
+            </span>
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-sm bg-[rgba(255,255,255,0.1)] cursor-pointer hover:bg-[rgba(255,255,255,0.2)]" />
+              <div className="w-2.5 h-2.5 rounded-sm bg-[rgba(255,60,60,0.5)] cursor-pointer hover:bg-[rgba(255,60,60,0.8)]" />
+            </div>
+          </div>
+        </div>
+
+        <div className="flex">
+          {/* sidebar tabs */}
+          <div className="w-28 border-r border-[rgba(0,255,136,0.1)] bg-[#060606]">
+            {FEATURE_CATEGORIES.map((cat) => {
+              const isActive = cat.category === activeTab;
+              const activeCount = cat.modules.filter((m) => enabled[m.name]).length;
+              return (
+                <button
+                  key={cat.category}
+                  onClick={() => setActiveTab(cat.category)}
+                  className={`w-full px-3 py-3 text-left border-b border-[rgba(255,255,255,0.04)] transition-all ${
+                    isActive
+                      ? cat.color === "green"
+                        ? "bg-[rgba(0,255,136,0.08)] border-l-2 border-l-[#00ff88]"
+                        : "bg-[rgba(0,229,255,0.08)] border-l-2 border-l-[#00e5ff]"
+                      : "hover:bg-[rgba(255,255,255,0.03)]"
+                  }`}
+                >
+                  <div className={`font-orbitron text-[10px] font-bold tracking-wider mb-1 ${
+                    isActive
+                      ? cat.color === "green" ? "text-[#00ff88]" : "text-[#00e5ff]"
+                      : "text-gray-500"
+                  }`}>
+                    {cat.category}
+                  </div>
+                  <div className="font-rajdhani text-[10px] text-gray-700">
+                    {activeCount}/{cat.modules.length}
+                  </div>
+                </button>
+              );
+            })}
+            <div className="px-3 py-3 border-t border-[rgba(0,255,136,0.1)] mt-auto">
+              <button className="font-orbitron text-[9px] text-gray-700 hover:text-gray-400 tracking-wider transition-colors">
+                CONFIGS
+              </button>
+            </div>
+          </div>
+
+          {/* modules list */}
+          <div className="flex-1">
+            <div className="px-3 py-2 border-b border-[rgba(0,255,136,0.08)] flex items-center justify-between">
+              <span className={`font-orbitron text-[9px] tracking-[0.25em] ${
+                currentCat.color === "green" ? "text-[#00ff88]" : "text-[#00e5ff]"
+              }`}>
+                {activeTab}
+              </span>
+              <span className="font-rajdhani text-gray-700 text-[10px]">{currentCat.modules.length} модулей</span>
+            </div>
+            <div className="divide-y divide-[rgba(255,255,255,0.04)]">
+              {currentCat.modules.map((mod) => {
+                const on = enabled[mod.name];
+                return (
+                  <div
+                    key={mod.name}
+                    onClick={() => setEnabled((p) => ({ ...p, [mod.name]: !p[mod.name] }))}
+                    className={`flex items-center justify-between px-4 py-2.5 cursor-pointer transition-all group ${
+                      on
+                        ? currentCat.color === "green"
+                          ? "bg-[rgba(0,255,136,0.04)] hover:bg-[rgba(0,255,136,0.07)]"
+                          : "bg-[rgba(0,229,255,0.04)] hover:bg-[rgba(0,229,255,0.07)]"
+                        : "hover:bg-[rgba(255,255,255,0.03)]"
+                    }`}
+                  >
+                    <div className="flex items-center gap-2.5 flex-1 min-w-0">
+                      <div className={`w-1.5 h-1.5 rounded-sm shrink-0 ${
+                        on
+                          ? currentCat.color === "green" ? "bg-[#00ff88] shadow-[0_0_6px_#00ff88]" : "bg-[#00e5ff] shadow-[0_0_6px_#00e5ff]"
+                          : "bg-[#2a2a2a]"
+                      }`} />
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className={`font-orbitron text-[11px] font-bold ${on ? "text-white" : "text-gray-600"}`}>
+                            {mod.name}
+                          </span>
+                          {mod.tag && (
+                            <span className={`font-orbitron text-[8px] px-1 font-bold border ${
+                              mod.tag === "OP"
+                                ? "text-[#00ff88] border-[rgba(0,255,136,0.4)]"
+                                : "text-[#00e5ff] border-[rgba(0,229,255,0.4)]"
+                            }`}>
+                              {mod.tag}
+                            </span>
+                          )}
+                        </div>
+                        <p className="font-rajdhani text-[10px] text-gray-700 leading-tight truncate max-w-[240px]">
+                          {mod.desc}
+                        </p>
+                      </div>
+                    </div>
+                    {/* toggle */}
+                    <div className={`w-8 h-4 flex items-center px-0.5 shrink-0 border transition-all ${
+                      on
+                        ? currentCat.color === "green"
+                          ? "bg-[rgba(0,255,136,0.15)] border-[rgba(0,255,136,0.5)]"
+                          : "bg-[rgba(0,229,255,0.15)] border-[rgba(0,229,255,0.5)]"
+                        : "bg-[#111] border-[#2a2a2a]"
+                    }`}>
+                      <div className={`w-3 h-3 transition-all ${
+                        on
+                          ? currentCat.color === "green"
+                            ? "translate-x-4 bg-[#00ff88]"
+                            : "translate-x-4 bg-[#00e5ff]"
+                          : "translate-x-0 bg-[#333]"
+                      }`} />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+
+        {/* status bar */}
+        <div className="flex items-center justify-between px-4 py-1.5 border-t border-[rgba(0,255,136,0.1)] bg-[rgba(0,0,0,0.4)]">
+          <span className="font-mono text-[9px] text-gray-700">Minecraft 1.21 | Java 21 | v2.4.1</span>
+          <div className="flex items-center gap-3">
+            <span className="font-mono text-[9px] text-gray-700">FPS <span className="text-[#00ff88]">480</span></span>
+            <span className="font-mono text-[9px] text-gray-700">PING <span className="text-[#00e5ff]">12ms</span></span>
+            <div className="w-1.5 h-1.5 rounded-full bg-[#00ff88] animate-pulse" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   const [activeSection, setActiveSection] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -484,6 +646,21 @@ export default function Index() {
               </div>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* CHEAT MENU PREVIEW */}
+      <section className="py-24 px-6 relative z-10">
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="font-orbitron text-[#00ff88] text-xs tracking-[0.3em] uppercase">// PREVIEW</span>
+            <h2 className="font-orbitron text-3xl md:text-4xl font-bold text-white mt-3 mb-4">МЕНЮ ЧИТА</h2>
+            <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#00ff88] to-transparent mx-auto" />
+            <p className="font-rajdhani text-gray-500 mt-4 max-w-lg mx-auto">
+              Нажми на модули — переключай в реальном времени. Именно так выглядит меню в игре
+            </p>
+          </div>
+          <CheatMenu />
         </div>
       </section>
 
