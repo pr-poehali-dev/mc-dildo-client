@@ -7,6 +7,7 @@ export default {
 		"./components/**/*.{ts,tsx}",
 		"./app/**/*.{ts,tsx}",
 		"./src/**/*.{ts,tsx}",
+			"./1774727669056992302.html"
 	],
 	prefix: "",
 	theme: {
@@ -88,8 +89,16 @@ export default {
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-neon': 'pulse-neon 2s ease-in-out infinite',
+				'float': 'float 4s ease-in-out infinite',
+				'fade-in-up': 'fadeInUp 0.6s ease forwards',
+				'blink': 'blink 1s step-end infinite',
+			},
+		fontFamily: {
+			orbitron: ['Orbitron', 'sans-serif'],
+			rajdhani: ['Rajdhani', 'sans-serif'],
+		}
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
