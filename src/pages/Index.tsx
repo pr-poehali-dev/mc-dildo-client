@@ -130,9 +130,52 @@ function FpsCounter() {
   );
 }
 
+function BuyModal({ onClose }: { onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" onClick={onClose} />
+      <div className="relative bg-[#0a0a0a] border border-[rgba(0,255,136,0.3)] p-8 max-w-sm w-full z-10">
+        <button onClick={onClose} className="absolute top-4 right-4 text-gray-600 hover:text-white transition-colors">
+          <Icon name="X" size={18} />
+        </button>
+
+        <div className="text-center mb-6">
+          <span className="font-orbitron text-[#00ff88] text-xs tracking-[0.3em]">ЛИЦЕНЗИЯ</span>
+          <h2 className="font-orbitron text-white text-xl font-bold mt-2">DILDO CLIENT</h2>
+          <div className="w-12 h-px bg-gradient-to-r from-transparent via-[#00ff88] to-transparent mx-auto mt-3" />
+        </div>
+
+        <div className="space-y-2 mb-6">
+          {["Доступ ко всем функциям", "Бесплатные обновления", "Поддержка 1.16–1.21", "Без ограничений по времени"].map((item) => (
+            <div key={item} className="flex items-center gap-2">
+              <Icon name="Check" size={14} className="text-[#00ff88] shrink-0" />
+              <span className="font-rajdhani text-gray-300 text-sm">{item}</span>
+            </div>
+          ))}
+        </div>
+
+        <div className="border border-[rgba(0,255,136,0.15)] bg-[rgba(0,255,136,0.03)] p-4 mb-6 text-center">
+          <span className="font-rajdhani text-gray-500 text-xs uppercase tracking-widest block mb-1">Стоимость</span>
+          <span className="font-orbitron text-3xl font-black neon-text">678 ₽</span>
+          <span className="font-rajdhani text-gray-600 text-xs block mt-1">единоразово · навсегда</span>
+        </div>
+
+        <button className="neon-btn w-full text-sm py-3">
+          ПЕРЕЙТИ К ОПЛАТЕ
+        </button>
+
+        <p className="font-rajdhani text-gray-700 text-xs text-center mt-4">
+          Оплата через банковскую карту
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function Index() {
   const [activeSection, setActiveSection] = useState("home");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [buyOpen, setBuyOpen] = useState(false);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
@@ -153,6 +196,7 @@ export default function Index() {
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white relative">
+      {buyOpen && <BuyModal onClose={() => setBuyOpen(false)} />}
       <Particles />
 
       {/* NAV */}
@@ -249,7 +293,7 @@ export default function Index() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up opacity-0 delay-500">
-            <button onClick={() => scrollTo("download")} className="neon-btn text-sm px-8 py-3">
+            <button onClick={() => setBuyOpen(true)} className="neon-btn text-sm px-8 py-3">
               ⬇ КУПИТЬ КЛИЕНТ
             </button>
             <button onClick={() => scrollTo("features")} className="neon-btn neon-btn-cyan text-sm px-8 py-3">
