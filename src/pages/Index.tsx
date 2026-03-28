@@ -9,42 +9,54 @@ const NAV_LINKS = [
   { id: "docs", label: "ДОКУМЕНТАЦИЯ" },
 ];
 
-const FEATURES = [
+const FEATURE_CATEGORIES = [
   {
-    icon: "Zap",
-    title: "Буст FPS",
-    desc: "Оптимизированный рендеринг увеличивает FPS до 500% по сравнению с ванильным клиентом",
+    category: "COMBAT",
     color: "green",
+    modules: [
+      { name: "KillAura", desc: "Автоматическая атака ближайших врагов в заданном радиусе", tag: "OP" },
+      { name: "Reach", desc: "Увеличенная дистанция удара — бей раньше, чем тебя видят", tag: null },
+      { name: "Velocity", desc: "Снижение или полное отключение knockback от ударов", tag: null },
+      { name: "AutoCrits", desc: "Автоматические криты без прыжков — урон x2 всегда", tag: null },
+      { name: "Criticals", desc: "Имитация прыжков для гарантированного крита каждый удар", tag: null },
+      { name: "AntiKnockback", desc: "Полная блокировка отбрасывания при получении урона", tag: "NEW" },
+    ],
   },
   {
-    icon: "Cpu",
-    title: "CPU Оптимизация",
-    desc: "Умное распределение нагрузки процессора снижает задержки и устраняет фризы",
+    category: "MOVEMENT",
     color: "cyan",
+    modules: [
+      { name: "Speed", desc: "Увеличение скорости передвижения с обходом серверных ограничений", tag: "OP" },
+      { name: "Fly", desc: "Свободный полёт в выживании — горизонтальный и вертикальный", tag: null },
+      { name: "NoFall", desc: "Полная отмена урона от падения с любой высоты", tag: null },
+      { name: "Sprint", desc: "Перманентный спринт без потери еды и стамины", tag: null },
+      { name: "Bhop", desc: "Bunny hop — автоматические прыжки для максимальной скорости", tag: null },
+      { name: "Jesus", desc: "Хождение по воде как посуху без замедления", tag: "NEW" },
+    ],
   },
   {
-    icon: "MemoryStick",
-    title: "RAM Менеджер",
-    desc: "Продвинутая система управления памятью — меньше утечек, стабильная работа",
+    category: "VISUAL",
     color: "green",
+    modules: [
+      { name: "ESP", desc: "Подсветка игроков, мобов и предметов сквозь стены", tag: "OP" },
+      { name: "Tracers", desc: "Линии до всех игроков — видишь где они даже за горой", tag: null },
+      { name: "Fullbright", desc: "Максимальная яркость в любое время суток без факелов", tag: null },
+      { name: "ChestESP", desc: "Рентген для сундуков, шалкеров и ценного лута", tag: null },
+      { name: "Xray", desc: "Видишь руду и пустоты сквозь любые блоки", tag: "NEW" },
+      { name: "NameTags", desc: "Кастомные теги над игроками с их здоровьем и пингом", tag: null },
+    ],
   },
   {
-    icon: "Gauge",
-    title: "Lowlatency режим",
-    desc: "Минимальный пинг и моментальный отклик управления для конкурентной игры",
+    category: "MISC",
     color: "cyan",
-  },
-  {
-    icon: "Settings",
-    title: "Тонкая настройка",
-    desc: "Гибкие настройки графики с пресетами под любое железо — от слабых ПК до топовых сборок",
-    color: "green",
-  },
-  {
-    icon: "Shield",
-    title: "Античит совместим",
-    desc: "Полная совместимость с популярными античит-системами — безопасная игра на любых серверах",
-    color: "cyan",
+    modules: [
+      { name: "AutoTotem", desc: "Автоматическое перекладывание тотема в оффхенд при смерти", tag: "OP" },
+      { name: "Scaffold", desc: "Автоматическая укладка блоков под ногами при ходьбе", tag: null },
+      { name: "AutoArmor", desc: "Автоматическое надевание лучшей доступной брони", tag: null },
+      { name: "Nuker", desc: "Мгновенный снос блоков в большом радиусе вокруг игрока", tag: null },
+      { name: "AutoEat", desc: "Автоматическое поедание еды при низком уровне голода", tag: null },
+      { name: "Timer", desc: "Ускорение тиков игры — двигаешься быстрее всех на сервере", tag: "NEW" },
+    ],
   },
 ];
 
@@ -362,57 +374,63 @@ export default function Index() {
             <h2 className="font-orbitron text-3xl md:text-4xl font-bold text-white mt-3 mb-4">ФУНКЦИИ</h2>
             <div className="w-16 h-px bg-gradient-to-r from-transparent via-[#00ff88] to-transparent mx-auto" />
             <p className="font-rajdhani text-gray-500 mt-4 max-w-lg mx-auto">
-              Каждая функция разработана с одной целью — дать тебе преимущество
+              24 модуля across 4 категорий — полный арсенал для доминирования на любом сервере
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-            {FEATURES.map((f) => (
-              <div key={f.title} className="card-dark p-6 group">
-                <div
-                  className={`w-10 h-10 flex items-center justify-center mb-4 border ${
-                    f.color === "green"
-                      ? "border-[rgba(0,255,136,0.3)] bg-[rgba(0,255,136,0.05)]"
-                      : "border-[rgba(0,229,255,0.3)] bg-[rgba(0,229,255,0.05)]"
-                  }`}
-                >
-                  <Icon
-                    name={f.icon as "Zap"}
-                    size={18}
-                    className={f.color === "green" ? "text-[#00ff88]" : "text-[#00e5ff]"}
-                    fallback="Star"
-                  />
+          <div className="space-y-6">
+            {FEATURE_CATEGORIES.map((cat) => (
+              <div key={cat.category} className="card-dark overflow-hidden">
+                <div className={`px-6 py-3 border-b flex items-center gap-3 ${
+                  cat.color === "green"
+                    ? "border-[rgba(0,255,136,0.15)] bg-[rgba(0,255,136,0.04)]"
+                    : "border-[rgba(0,229,255,0.15)] bg-[rgba(0,229,255,0.04)]"
+                }`}>
+                  <div className={`w-1.5 h-1.5 rounded-full ${cat.color === "green" ? "bg-[#00ff88]" : "bg-[#00e5ff]"}`} />
+                  <span className={`font-orbitron text-xs font-bold tracking-[0.3em] ${cat.color === "green" ? "text-[#00ff88]" : "text-[#00e5ff]"}`}>
+                    {cat.category}
+                  </span>
+                  <span className="font-rajdhani text-gray-600 text-xs ml-auto">{cat.modules.length} модулей</span>
                 </div>
-                <h3 className="font-orbitron text-white text-sm font-bold mb-2 tracking-wide">{f.title}</h3>
-                <p className="font-rajdhani text-gray-500 text-sm leading-relaxed">{f.desc}</p>
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[rgba(255,255,255,0.03)]">
+                  {cat.modules.map((mod) => (
+                    <div key={mod.name} className="bg-[#0a0a0a] p-4 hover:bg-[#0f0f0f] transition-colors group">
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <span className={`font-orbitron text-xs font-bold ${cat.color === "green" ? "text-white" : "text-white"}`}>
+                          {mod.name}
+                        </span>
+                        {mod.tag && (
+                          <span className={`font-orbitron text-[9px] px-1.5 py-0.5 font-bold ${
+                            mod.tag === "OP"
+                              ? "bg-[rgba(0,255,136,0.15)] text-[#00ff88] border border-[rgba(0,255,136,0.3)]"
+                              : "bg-[rgba(0,229,255,0.15)] text-[#00e5ff] border border-[rgba(0,229,255,0.3)]"
+                          }`}>
+                            {mod.tag}
+                          </span>
+                        )}
+                      </div>
+                      <p className="font-rajdhani text-gray-600 text-xs leading-relaxed group-hover:text-gray-400 transition-colors">
+                        {mod.desc}
+                      </p>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="mt-12 card-dark p-8">
-            <h3 className="font-orbitron text-white text-sm font-bold mb-6 tracking-widest">СРАВНЕНИЕ ПРОИЗВОДИТЕЛЬНОСТИ</h3>
-            <div className="space-y-5">
-              {[
-                { name: "Dildo Client", fps: 480, pct: 96, color: "#00ff88" },
-                { name: "Другой клиент A", fps: 280, pct: 56, color: "#00e5ff" },
-                { name: "Vanilla Minecraft", fps: 90, pct: 18, color: "#555" },
-              ].map((item) => (
-                <div key={item.name}>
-                  <div className="flex justify-between mb-1.5">
-                    <span className="font-rajdhani text-gray-400 text-sm">{item.name}</span>
-                    <span className="font-orbitron text-sm font-bold" style={{ color: item.color }}>
-                      {item.fps} FPS
-                    </span>
-                  </div>
-                  <div className="h-1.5 bg-[#1a1a1a] overflow-hidden">
-                    <div
-                      className="h-full transition-all duration-1000"
-                      style={{ width: `${item.pct}%`, background: item.color, boxShadow: `0 0 8px ${item.color}` }}
-                    />
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { label: "Всего модулей", value: "24+" },
+              { label: "Обходов античит", value: "12" },
+              { label: "Версий MC", value: "6" },
+              { label: "Активных юзеров", value: "4.2K" },
+            ].map((s) => (
+              <div key={s.label} className="card-dark p-4 text-center">
+                <div className="font-orbitron text-2xl font-black neon-text mb-1">{s.value}</div>
+                <div className="font-rajdhani text-gray-600 text-xs uppercase tracking-wider">{s.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
